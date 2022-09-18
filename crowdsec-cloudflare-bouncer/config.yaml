@@ -1,0 +1,33 @@
+name: "Crowdsec Cloudflare Bouncer"
+description: "Crowdsec Cloudflare bouncer"
+url: "https://github.com/krisbogaerts/home-assistant-addons/tree/main/crowdsec-cloudflare-bouncer/DOCS.md"
+version: "v0.2.7"
+slug: crowdsec-cloudflare-bouncer
+init: false
+host_network: true
+privileged:
+  - NET_ADMIN
+arch:
+  - aarch64
+
+image: "ghcr.io/krisbogaerts/{arch}-addon-crowdsec-cloudflare-bouncer"
+options:
+  api_url: "http://424ccef4-crowdsec:8080/"
+  api_key: ""
+  update_frequency: "10s"
+  log_level: info
+  cloudflare_id: ""
+  cloudflare_token: ""
+  cloudflare_zone_id: ""
+schema:
+  api_url: str
+  api_key: str
+  update_frequency: str
+  log_level: list(info|error|debug)
+  cloudflare_id: str
+  cloudflare_token: str
+  cloudflare_zone_id: str
+map:
+  - config:rw
+
+journald: true

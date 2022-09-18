@@ -1,0 +1,42 @@
+#!/usr/bin/with-contenv bashio
+
+# Declare variables
+declare api_url
+declare api_key
+declare update_frequency
+declare cloudflare_id
+declare cloudflare_token
+declare cloudflare_zone_id
+
+
+# Get all arguments
+api_url=$(bashio::config 'api_url')
+api_key=$(bashio::config 'api_key')
+update_frequency=$(bashio::config 'update_frequency')
+log_level=$(bashio::config 'log_level')
+cloudflare_id=$(bashio::config 'cloudflare_id')
+cloudflare_token=$(bashio::config 'cloudflare_token')
+cloudflare_zone_id=$(bashio::config 'cloudflare_zone_id')
+
+
+bashio::log.info "Running Crowdsec addon"
+bashio::log.info "-> Replacing environment variables"
+sed -i "s|{API_URL}|${api_url}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+sed -i "s|{API_KEY}|${api_key}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+sed -i "s|{UPDATE_FREQUENCY}|${update_frequency}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+sed -i "s|{LOG_LEVEL}|${log_level}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+sed -i "s|{CLOUDFLARE_ID}|${cloudflare_id}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+sed -i "s|{CLOUDFLARE_TOKEN}|${cloudflare_token}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+sed -i "s|{CLOUDFLARE_ZONE_ID}|${cloudflare_zone_id}|" /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+
+#bashio::log.info "-> Validating config file"
+#/usr/bin/crowdsec-cloudflare-bouncer -c /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
+
+bashio::log.info "-> Cloudflare cleanup"
+/usr/bin/crowdsec-cloudflare-bouncer -d
+
+bashio::log.info "-> Setup IP lists and firewall rules at cloudflare"
+/usr/bin/crowdsec-cloudflare-bouncer -s
+
+bashio::log.info "-> Starting crowdsec-firewall-bouncer"
+exec /usr/bin/crowdsec-cloudflare-bouncer -c /etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml
