@@ -7,7 +7,7 @@
 Follow these steps to get the add-on installed on your system:
 
 1. Navigate in your Home Assistant frontend to **Supervisor** -> **Add-on Store**.
-2. Click on the icon at the top right then **Respositories** and add `https://github.com/crowdsecurity/home-assistant-addons`
+2. Click on the icon at the top right then **Respositories** and add `https://github.com/krisbogaerts/home-assistant-addons`
 3. Find the "CrowdSec cloudflare Bouncer" add-on in CrowdSec add-ons repository and click it.
 4. Click on the "INSTALL" button.
 
