@@ -1,11 +1,11 @@
 name: "Crowdsec Cloudflare Bouncer"
 description: "Crowdsec Cloudflare bouncer"
 url: "https://github.com/krisbogaerts/home-assistant-addons/tree/main/crowdsec-cloudflare-bouncer/DOCS.md"
-version: "v0.0.1"
+version: "v0.0.2"
 slug: crowdsec-cloudflare-bouncer
 init: false
-host_network: true
-auth_api: true
+#host_network: true
+ingress: true
 arch:
   - aarch64
 
