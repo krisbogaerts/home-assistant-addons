@@ -5,8 +5,7 @@ version: "v0.0.1"
 slug: crowdsec-cloudflare-bouncer
 init: false
 host_network: true
-privileged:
-  - NET_ADMIN
+auth_api: true
 arch:
   - aarch64
 
